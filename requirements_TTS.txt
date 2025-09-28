@@ -1,0 +1,41 @@
+
+# Core PyTorch ecosystem
+torch==2.6.0
+torchaudio==2.6.0
+
+# Deep learning and transformers
+transformers==4.51.3
+tokenizers>=0.21,<0.22
+safetensors==0.5.3
+
+# Audio processing
+librosa==0.10.0
+soundfile==0.13.1
+resampy==0.4.3
+soxr==0.5.0.post1
+
+# Text processing and tokenization
+sentencepiece==0.2.1
+omegaconf==2.3.0
+einops==0.8.1
+
+# Chinese text processing
+WeTextProcessing==1.0.4.1
+jieba==0.42.1
+pypinyin==0.50.0
+
+# Numerical and scientific computing
+numpy==1.26.4
+scipy==1.11.4
+scikit-learn==1.6.1
+
+# Visualization and plotting
+matplotlib==3.8.2
+tqdm==4.67.1
+
+# DeepSpeed for model optimization
+deepspeed==0.17.5
+
+# Optional: For server deployment
+pyzmq==26.2.1
+

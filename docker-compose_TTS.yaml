@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  broker:
+    image: ss-broker
+    container_name: sharestyle-broker
+    ports:
+      - "5559:5559"
+      - "5560:5560"
+    environment:
+      - ZMQ_FRONTEND_ROUTER_PORT=5559
+      - ZMQ_BACKEND_ROUTER_PORT=5560
+    networks:
+      - tts-network
+
+  tts-server:
+    image: ss-tts
+    container_name: ss-tts
+    environment:
+      - DEVICE=cuda
+      - ZMQ_BACKEND_ROUTER_URL=tcp://sharestyle-broker:5560
+      - TTS_SPEED=1.0
+    depends_on:
+      - broker
+    networks:
+      - tts-network
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  gateway:
+    image: ss-gateway
+    container_name: sharestyle-gateway
+    ports:
+      - "8000:8008"
+    environment:
+      - ZMQ_FRONTEND_ROUTER_URL=tcp://sharestyle-broker:5559
+    depends_on:
+      - broker
+      - tts-server
+    networks:
+      - tts-network
+
+networks:
+  tts-network:
+    driver: bridge
