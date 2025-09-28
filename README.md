@@ -54,6 +54,45 @@ ls -la index-tts/
 # - tools/
 ```
 
+### 3. Download Model Checkpoints
+```bash
+# Create checkpoints directory
+mkdir -p checkpoints
+
+# Download IndexTTS-1.5 model files using huggingface-cli
+huggingface-cli download IndexTeam/IndexTTS-1.5 \
+  config.yaml \
+  bigvgan_discriminator.pth \
+  bigvgan_generator.pth \
+  bpe.model \
+  dvae.pth \
+  gpt.pth \
+  unigram_12000.vocab \
+  --local-dir checkpoints
+
+# Alternative: Download using wget (if huggingface-cli is not available)
+wget https://huggingface.co/IndexTeam/IndexTTS-1.5/resolve/main/config.yaml -P checkpoints
+wget https://huggingface.co/IndexTeam/IndexTTS-1.5/resolve/main/bigvgan_discriminator.pth -P checkpoints
+wget https://huggingface.co/IndexTeam/IndexTTS-1.5/resolve/main/bigvgan_generator.pth -P checkpoints
+wget https://huggingface.co/IndexTeam/IndexTTS-1.5/resolve/main/bpe.model -P checkpoints
+wget https://huggingface.co/IndexTeam/IndexTTS-1.5/resolve/main/dvae.pth -P checkpoints
+wget https://huggingface.co/IndexTeam/IndexTTS-1.5/resolve/main/gpt.pth -P checkpoints
+wget https://huggingface.co/IndexTeam/IndexTTS-1.5/resolve/main/unigram_12000.vocab -P checkpoints
+
+# Verify all model files are downloaded
+ls -la checkpoints/
+
+# Expected files and approximate sizes:
+# - config.yaml (~2KB) - Model configuration
+# - bigvgan_discriminator.pth (~1.2GB) - BigVGAN discriminator
+# - bigvgan_generator.pth (~1.2GB) - BigVGAN generator
+# - bpe.model (~2MB) - Byte-pair encoding model
+# - dvae.pth (~200MB) - Discrete VAE model
+# - gpt.pth (~2.5GB) - GPT model weights
+# - unigram_12000.vocab (~1MB) - Vocabulary file
+# Total size: ~5GB
+```
+
 **Project Structure After Setup:**
 ```
 TTS-Prod/
@@ -69,7 +108,7 @@ TTS-Prod/
 ```
 
 
-### 3. Verify GPU Support (Optional)
+### 4. Verify GPU Support (Optional)
 ```bash
 # Test NVIDIA Docker support
 docker run --rm --gpus all nvidia/cuda:11.8-base-ubuntu20.04 nvidia-smi
